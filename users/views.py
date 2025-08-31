@@ -9,7 +9,6 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
-from drf_spectacular.utils import extend_schema, OpenApiExample
 from django_ratelimit.decorators import ratelimit
 
 from .serializers import (
@@ -19,27 +18,17 @@ from .serializers import (
 )
 from .utils import generate_reset_token, consume_reset_token
 from auth_service.health import run_healthcheck
+from .schemas import (  # Import the schemas
+    register_schema, login_schema, forgot_password_schema,
+    reset_password_schema, me_schema
+)
 
 
 logger = logging.getLogger(__name__)
 User = get_user_model()
 
 
-@extend_schema(
-    request=RegisterSerializer,
-    responses={201: UserSerializer, 400: None},
-    examples=[
-        OpenApiExample(
-            'Example',
-            value={
-                'email': 'user@example.com',
-                'password': 'securepassword123',
-                'password_confirm': 'securepassword123',
-                'full_name': 'John Doe'
-            }
-        )
-    ]
-)
+@register_schema  # Use the schema from schemas.py
 @api_view(["POST"])
 @permission_classes([AllowAny])
 @ratelimit(key='ip', rate='10/m', block=True)
@@ -53,19 +42,7 @@ def register(request):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-@extend_schema(
-    request=LoginSerializer,
-    responses={200: None, 400: None},
-    examples=[
-        OpenApiExample(
-            'Example',
-            value={
-                'email': 'user@example.com',
-                'password': 'securepassword123'
-            }
-        )
-    ]
-)
+@login_schema  # Use the schema from schemas.py
 @api_view(["POST"])
 @permission_classes([AllowAny])
 @ratelimit(key='ip', rate='20/m', block=True)
@@ -96,18 +73,7 @@ def login(request):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-@extend_schema(
-    request=ForgotPasswordSerializer,
-    responses={200: None, 400: None},
-    examples=[
-        OpenApiExample(
-            'Example',
-            value={
-                'email': 'user@example.com'
-            }
-        )
-    ]
-)
+@forgot_password_schema  # Use the schema from schemas.py
 @api_view(["POST"])
 @permission_classes([AllowAny])
 @ratelimit(key='ip', rate='5/m', block=True)
@@ -150,20 +116,7 @@ def forgot_password(request):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-@extend_schema(
-    request=ResetPasswordSerializer,
-    responses={200: None, 400: None},
-    examples=[
-        OpenApiExample(
-            'Example',
-            value={
-                'token': 'reset_token_string',
-                'new_password': 'newsecurepassword123',
-                'new_password_confirm': 'newsecurepassword123'
-            }
-        )
-    ]
-)
+@reset_password_schema  # Use the schema from schemas.py
 @api_view(["POST"])
 @permission_classes([AllowAny])
 @ratelimit(key='ip', rate='5/m', block=True)
@@ -195,12 +148,9 @@ def reset_password(request):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-@extend_schema(
-    responses={200: UserSerializer}
-)
+@me_schema  # Use the schema from schemas.py
 @api_view(["GET"])
 @permission_classes([IsAuthenticated])
 def me(request):
     user = request.user
     return Response(UserSerializer(user).data)
-
