@@ -262,7 +262,3 @@ SPECTACULAR_SETTINGS = {
         "displayRequestDuration": True,
     }
 }
-
-# ---------------------
-# Security Settings for Production
-# ---------------------
