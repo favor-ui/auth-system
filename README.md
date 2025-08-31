@@ -1,6 +1,3 @@
-# 📄 `README.md`
-
-```markdown
 # Django Authentication Service
 
 A complete JWT authentication system with PostgreSQL and Redis.
@@ -33,11 +30,8 @@ cd auth_service
 python -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
-```
-
-### 2. Start Database and Redis
-
-```bash
+2. Start Database and Redis
+bash
 # Start PostgreSQL container
 docker run --name auth-postgres \
   -e POSTGRES_DB=auth_service \
@@ -50,13 +44,10 @@ docker run --name auth-postgres \
 docker run --name auth-redis \
   -p 6379:6379 \
   -d redis:7-alpine
-```
+3. Environment Configuration
+Create .env file:
 
-### 3. Environment Configuration
-
-Create `.env` file:
-
-```env
+env
 DEBUG=True
 SECRET_KEY=your-secret-key-here
 ALLOWED_HOSTS=localhost,127.0.0.1
@@ -81,13 +72,10 @@ EMAIL_PORT=25
 EMAIL_USE_TLS=False
 DEFAULT_FROM_EMAIL=webmaster@localhost
 FRONTEND_URL=http://localhost:3000
-```
+4. Database Setup - IMPORTANT MIGRATION STEPS
+Critical: Follow these steps in order to avoid migration errors:
 
-### 4. Database Setup - IMPORTANT MIGRATION STEPS
-
-**Critical: Follow these steps in order to avoid migration errors:**
-
-```bash
+bash
 # 1. First create migrations for the users app
 python manage.py makemigrations users
 
@@ -102,33 +90,30 @@ python manage.py migrate
 
 # 5. Create superuser
 python manage.py createsuperuser
-```
-
-### 5. Start Server
-
-```bash
+5. Start Server
+bash
 python manage.py runserver
-```
+📋 API Endpoints
+Authentication Endpoints
+POST /api/auth/register/ - Register new user
 
-## 📋 API Endpoints
+POST /api/auth/login/ - Login and get JWT tokens
 
-### Authentication Endpoints
+POST /api/auth/forgot-password/ - Request password reset
 
-- `POST /api/auth/register/` - Register new user
-- `POST /api/auth/login/` - Login and get JWT tokens
-- `POST /api/auth/forgot-password/` - Request password reset
-- `POST /api/auth/reset-password/` - Confirm password reset
-- `GET /api/auth/me/` - Get current user profile
+POST /api/auth/reset-password/ - Confirm password reset
 
-### Utility Endpoints
+GET /api/auth/me/ - Get current user profile
 
-- `GET /health/` - Health check status
-- `GET /api/docs/` - API documentation (Swagger)
-- `GET /admin/` - Django admin interface
+Utility Endpoints
+GET /health/ - Health check status
 
-## 🐳 Docker Compose Alternative
+GET /api/docs/ - API documentation (Swagger)
 
-```bash
+GET /admin/ - Django admin interface
+
+🐳 Docker Compose Alternative
+bash
 # Start all services
 docker-compose up
 
@@ -140,11 +125,8 @@ docker-compose exec web python manage.py migrate
 
 # Create superuser
 docker-compose exec web python manage.py createsuperuser
-```
-
-## 🧪 Testing
-
-```bash
+🧪 Testing
+bash
 # Run all tests
 pytest
 
@@ -153,13 +135,9 @@ pytest users/tests/test_auth_api.py -v
 
 # Run with coverage
 pytest --cov=.
-```
-
-## 🔧 Environment Configuration
-
-### Required Environment Variables
-
-```env
+🔧 Environment Configuration
+Required Environment Variables
+env
 # Core Django
 DEBUG=True
 SECRET_KEY=your-secret-key
@@ -174,11 +152,8 @@ DB_PASSWORD=postgres
 
 # Redis
 REDIS_URL=redis://localhost:6379/0
-```
-
-### Optional Environment Variables
-
-```env
+Optional Environment Variables
+env
 # JWT Settings
 ACCESS_TOKEN_LIFETIME_MIN=30
 REFRESH_TOKEN_LIFETIME_DAYS=7
@@ -191,34 +166,34 @@ DEFAULT_FROM_EMAIL=webmaster@localhost
 
 # Frontend
 FRONTEND_URL=http://localhost:3000
-```
-
-## 📖 API Documentation
-
+📖 API Documentation
 Interactive API documentation is available at:
 
-- [**Swagger UI**](http://localhost:8000/api/docs/swagger/) - Interactive API explorer
-- [**ReDoc**](http://localhost:8000/api/docs/redoc/) - Beautiful API documentation
+Swagger UI - Interactive API explorer
 
-## 🚀 Deployment
+ReDoc - Beautiful API documentation
 
-### Railway Deployment
+🚀 Deployment
+Railway Deployment
+Connect GitHub repository to Railway
 
-1. Connect GitHub repository to Railway
-2. Set environment variables in dashboard
-3. Automatic deploys on push to main
+Set environment variables in dashboard
 
-### Render Deployment
+Automatic deploys on push to main
 
-1. Create Web Service on Render
-2. Connect repository
-3. Set build command: `pip install -r requirements.txt`
-4. Set start command: `gunicorn --bind 0.0.0.0:$PORT auth_service.wsgi:application`
-5. Configure environment variables
+Render Deployment
+Create Web Service on Render
 
-## 📁 Project Structure
+Connect repository
 
-```
+Set build command: pip install -r requirements.txt
+
+Set start command: gunicorn --bind 0.0.0.0:$PORT auth_service.wsgi:application
+
+Configure environment variables
+
+📁 Project Structure
+text
 auth_service/
 ├── auth_service/           # Django project
 │   ├── __init__.py
@@ -241,30 +216,31 @@ auth_service/
 ├── requirements.txt     # Python dependencies
 ├── .env.example        # Environment template
 └── README.md           # This file
-```
+🔐 Authentication Flow
+Registration: User provides email, password, and full name
 
-## 🔐 Authentication Flow
+Login: User authenticates with email/password, receives JWT tokens
 
-1. **Registration**: User provides email, password, and full name
-2. **Login**: User authenticates with email/password, receives JWT tokens
-3. **Password Reset**:
-   - User requests reset → Token generated and stored in Redis
-   - User receives token → Submits token with new password
-   - Token validated → Password updated → Token deleted from Redis
+Password Reset:
 
-## 🆘 Troubleshooting
+User requests reset → Token generated and stored in Redis
 
-### Common Issues
+User receives token → Submits token with new password
 
-1. **Database connection failed**: Ensure PostgreSQL container is running
-2. **Redis connection failed**: Check Redis container status
-3. **Migration errors**: Follow the exact migration order above
+Token validated → Password updated → Token deleted from Redis
 
-### Migration Troubleshooting
+🆘 Troubleshooting
+Common Issues
+Database connection failed: Ensure PostgreSQL container is running
 
+Redis connection failed: Check Redis container status
+
+Migration errors: Follow the exact migration order above
+
+Migration Troubleshooting
 If you encounter migration issues:
 
-```bash
+bash
 # Reset and start fresh (WARNING: deletes all data)
 python manage.py migrate users zero
 python manage.py migrate auth zero
@@ -275,11 +251,8 @@ python manage.py makemigrations users
 python manage.py migrate auth
 python manage.py migrate users
 python manage.py migrate
-```
-
-### Container Management
-
-```bash
+Container Management
+bash
 # Check container status
 docker ps
 
@@ -289,18 +262,18 @@ docker logs auth-redis
 
 # Restart containers
 docker restart auth-postgres auth-redis
-```
-
-## 📝 License
+📝 License
+This project is part of the Bill Station internship program.
 
 This project is part of the Bill Station internship program.
 
-## 🤝 Support
-
+🤝 Support
 For assistance, ensure:
 
-1. Docker containers are running (`docker ps`)
+1. Docker containers are running (docker ps)
+
 2. Environment variables are properly set
+
 3. Database migrations are applied in the correct order
+
 4. Follow the migration steps exactly as specified above
-```
