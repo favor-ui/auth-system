@@ -14,3 +14,6 @@ pytest
 pytest-django
 django-redis
 django_ratelimit
+gunicorn
+whitenoise[brotli]
+uvicorn
