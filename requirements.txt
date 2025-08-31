@@ -1,0 +1,16 @@
+django
+djangorestframework
+djangorestframework-simplejwt
+drf-spectacular
+psycopg[binary]
+redis
+django-ratelimit
+python-dotenv
+dj-database-url
+django-cors-headers
+gunicorn
+whitenoise
+pytest
+pytest-django
+django-redis
+django_ratelimit

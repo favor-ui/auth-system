@@ -1,0 +1,63 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg-info/
+.eggs/
+
+# Virtualenv
+.env
+.venv/
+venv/
+ENV/
+
+# IDE / Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Django
+db.sqlite3
+media/
+staticfiles/
+logs/
+*.log
+
+# Environment
+.env.local
+.env.development
+.env.production
+.env.test
+.env.*.backup
+
+# Migrations (keep __init__.py though)
+**/migrations/__pycache__/
+**/migrations/*.pyc
+**/migrations/*.pyo
+# Uncomment the next line if you want to exclude migration files from Git
+# **/migrations/*.py
+
+# Docker
+*.pid
+*.seed
+docker-compose.override.yml
+
+# Coverage / Testing
+.coverage
+coverage.xml
+htmlcov/
+.tox/
+.pytest_cache/
+.junit/
+
+# Node (if using Swagger UI build or frontend parts)
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Mac/OSX/Linux
+.DS_Store
+Thumbs.db
