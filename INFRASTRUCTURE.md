@@ -299,4 +299,3 @@ EMAIL_HOST_PASSWORD=your-app-password
 EMAIL_USE_TLS=True
 DEFAULT_FROM_EMAIL=noreply@yourdomain.com
 FRONTEND_URL=https://your-frontend.com
-This infrastructure setup supports both local development with Docker and production deployment on cloud platforms like Railway and Render.
