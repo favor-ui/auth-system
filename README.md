@@ -1,4 +1,3 @@
-```
 # Django Authentication Service
 
 A complete JWT authentication system with PostgreSQL and Redis.
