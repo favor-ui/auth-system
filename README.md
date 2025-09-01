@@ -1,3 +1,4 @@
+```
 # Django Authentication Service
 
 A complete JWT authentication system with PostgreSQL and Redis.
@@ -215,6 +216,7 @@ auth_service/
 ├── Dockerfile           # Application container
 ├── requirements.txt     # Python dependencies
 ├── .env.example        # Environment template
+├── INFRASTRUCTURE.md    # Infrastructure setup guide
 └── README.md           # This file
 🔐 Authentication Flow
 Registration: User provides email, password, and full name
@@ -265,15 +267,15 @@ docker restart auth-postgres auth-redis
 📝 License
 This project is part of the Bill Station internship program.
 
-This project is part of the Bill Station internship program.
-
 🤝 Support
 For assistance, ensure:
 
-1. Docker containers are running (docker ps)
+Docker containers are running (docker ps)
 
-2. Environment variables are properly set
+Environment variables are properly set
 
-3. Database migrations are applied in the correct order
+Database migrations are applied in the correct order
 
-4. Follow the migration steps exactly as specified above
+Follow the migration steps exactly as specified above
+
+Refer to INFRASTRUCTURE.md for detailed setup instructions
